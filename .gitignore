@@ -15,8 +15,8 @@ env/
 .venv/
 .env/
 
-# SQLite database (auto-generated on first run)
-database.db
+# SQLite database
+# database.db (Commented out so Vercel can access the pre-filled database)
 
 # Flask
 instance/
