@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}{{ crop.name }} — Crop Detail{% endblock %}
+{% block meta_description %}Detailed information about {{ crop.name }} — season, soil type, water requirement, temperature range and cultivation guide.{% endblock %}
+
+{% block content %}
+
+<!-- Page Header Banner -->
+<div class="page-header">
+    <div class="container">
+        <h1>{{ crop.image_emoji }} {{ crop.name }}</h1>
+        <p>Complete cultivation guide and growing information</p>
+    </div>
+</div>
+
+<div class="page-content" style="padding-top: 0;">
+    <div class="container">
+
+        <!-- Back link -->
+        <a href="{{ url_for('crops') }}" class="back-link">
+            ← Back to All Crops
+        </a>
+
+        <!-- ============================================================
+             CROP HEADER CARD
+             Shows the crop name and emoji prominently
+             ============================================================ -->
+        <div class="crop-detail-header">
+            <div class="crop-detail-emoji">{{ crop.image_emoji }}</div>
+            <div>
+                <h2 style="font-size: clamp(1.6rem, 4vw, 2.4rem); color: var(--green-900);">
+                    {{ crop.name }}
+                </h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                    <span class="badge badge-green">📅 {{ crop.season }}</span>
+                    <span class="badge badge-amber">🌡️ {{ crop.temperature }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             QUICK INFO GRID
+             Four info cards showing key crop facts
+             ============================================================ -->
+        <div class="info-grid">
+
+            <div class="info-card">
+                <div class="info-label">📅 Season</div>
+                <div class="info-value">{{ crop.season }}</div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-label">🪨 Soil Type</div>
+                <div class="info-value">{{ crop.soil }}</div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-label">💧 Water Requirement</div>
+                <div class="info-value">{{ crop.water_requirement }}</div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-label">🌡️ Temperature</div>
+                <div class="info-value">{{ crop.temperature }}</div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================
+             CULTIVATION INFORMATION BOX
+             Detailed growing information from the database
+             ============================================================ -->
+        <div class="cultivation-box">
+            <h3>
+                <span>📖</span>
+                Cultivation Information
+            </h3>
+
+            <!-- Split cultivation_info by period/sentence for better readability -->
+            {% set sentences = crop.cultivation_info.split('. ') %}
+            <ul style="padding-left: 1.2rem; color: var(--gray-700);">
+                {% for sentence in sentences %}
+                {% if sentence.strip() %}
+                <li style="margin-bottom: 0.6rem; line-height: 1.7;">
+                    {{ sentence.strip() }}{% if not sentence.strip().endswith('.') %}.{% endif %}
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <hr class="divider">
+
+        <!-- ============================================================
+             NAVIGATION BUTTONS
+             ============================================================ -->
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="{{ url_for('crops') }}" class="btn btn-secondary">
+                ← All Crops
+            </a>
+            <a href="{{ url_for('market') }}?crop={{ crop.name }}" class="btn btn-primary">
+                💰 Check {{ crop.name }} Market Price
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Market Prices{% endblock %}
+{% block meta_description %}Sample market price data for agricultural crops — compare prices across local and wholesale markets. Demo data for college project.{% endblock %}
+
+{% block content %}
+
+<!-- Page Header Banner -->
+<div class="page-header">
+    <div class="container">
+        <h1>💰 Market Prices</h1>
+        <p>Compare crop prices across local and wholesale markets.</p>
+    </div>
+</div>
+
+<div class="page-content" style="padding-top: 0;">
+    <div class="container">
+
+        <!-- ============================================================
+             IMPORTANT DEMO DATA NOTICE
+             Required — tells users prices are sample data, not live
+             ============================================================ -->
+        <div class="alert alert-warning">
+            <span class="alert-icon">⚠️</span>
+            <div>
+                <strong>Sample Data Notice:</strong>
+                Market prices shown in this college prototype are
+                <strong>sample / demo data</strong> and do not represent real-time or
+                verified market prices. They are used for demonstration purposes only.
+                For actual market rates, please contact your local APMC
+                (Agriculture Produce Market Committee) or visit the
+                <strong>eNAM portal (enam.gov.in)</strong>.
+            </div>
+        </div>
+
+        <!-- ============================================================
+             FILTER BAR
+             Lets the user filter prices by crop using a dropdown
+             The server handles filtering; JS also filters client-side
+             ============================================================ -->
+        <div class="filter-bar">
+            <label for="market-filter-select" style="font-weight: 600; color: var(--gray-700);">
+                Filter by Crop:
+            </label>
+
+            <!-- Server-side filter form -->
+            <form method="get" action="{{ url_for('market') }}" id="market-filter-form"
+                  style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
+
+                <select name="crop" id="market-filter-select"
+                        aria-label="Filter market prices by crop"
+                        onchange="this.form.submit()">
+                    <option value="">— All Crops —</option>
+                    {% for c in all_crops %}
+                    <option value="{{ c.crop }}"
+                            {% if filter_crop == c.crop %}selected{% endif %}>
+                        {{ c.crop }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+                {% if filter_crop %}
+                <a href="{{ url_for('market') }}" class="btn btn-sm btn-secondary">
+                    ✕ Clear Filter
+                </a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Show which filter is active -->
+        {% if filter_crop %}
+        <p class="text-muted text-small" style="margin-bottom: var(--space-5);">
+            Showing prices for: <strong>{{ filter_crop }}</strong>
+        </p>
+        {% endif %}
+
+        <!-- ============================================================
+             PRICE TABLE
+             ============================================================ -->
+        {% if prices %}
+        <div class="table-wrapper">
+            <table aria-label="Market price data table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>🌾 Crop</th>
+                        <th>🏪 Market</th>
+                        <th>💰 Price</th>
+                        <th>📦 Unit</th>
+                        <th>📅 Date</th>
+                    </tr>
+                </thead>
+                <tbody id="market-table-body">
+                    {% for row in prices %}
+                    <tr>
+                        <td style="color: var(--gray-300); font-size: 0.85rem;">{{ loop.index }}</td>
+
+                        <!-- data-crop attribute used by JavaScript filter -->
+                        <td data-crop="{{ row.crop }}">
+                            <strong>{{ row.crop }}</strong>
+                        </td>
+
+                        <td>{{ row.market }}</td>
+
+                        <td class="price-cell">
+                            ₹{{ "%.0f"|format(row.price) }}
+                        </td>
+
+                        <td>
+                            <span class="badge badge-green">{{ row.unit }}</span>
+                        </td>
+
+                        <td class="text-muted text-small">{{ row.date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <p class="text-muted text-small" style="margin-top: var(--space-4);">
+            📌 Showing {{ prices|length }} price record(s). All prices are in Indian Rupees (₹).
+        </p>
+
+        {% else %}
+        <!-- No prices found for the selected filter -->
+        <div class="no-results">
+            <div class="no-results-icon">📋</div>
+            <h3>No price data found</h3>
+            <p>No market prices available for "{{ filter_crop }}". <a href="{{ url_for('market') }}">Show all prices</a></p>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

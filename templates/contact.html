@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}Help & Contacts{% endblock %}
+{% block meta_description %}Agricultural helplines, KVK contacts, government agriculture support numbers and local agriculture office contact information for farmers.{% endblock %}
+
+{% block content %}
+
+<!-- Page Header Banner -->
+<div class="page-header">
+    <div class="container">
+        <h1>📞 Help & Contacts</h1>
+        <p>Agricultural support contacts, helplines and useful resources for farmers.</p>
+    </div>
+</div>
+
+<div class="page-content" style="padding-top: 0;">
+    <div class="container">
+
+        <!-- ============================================================
+             IMPORTANT NOTICE
+             Contact data may include sample/placeholder values
+             ============================================================ -->
+        <div class="alert alert-warning">
+            <span class="alert-icon">⚠️</span>
+            <div>
+                <strong>Notice:</strong>
+                Some contact details below are <strong>sample placeholder values</strong>
+                or general information — not verified local office numbers.
+                Where marked as placeholder, contact your local Taluk/District
+                Agriculture Office for verified, up-to-date contact details.
+                The <strong>Kisan Call Centre (1800-180-1551)</strong> is a verified
+                national toll-free helpline.
+            </div>
+        </div>
+
+        <!-- ============================================================
+             EMERGENCY HELPLINE HIGHLIGHT
+             The one verified national number displayed prominently
+             ============================================================ -->
+        <div style="background: linear-gradient(135deg, var(--green-800), var(--green-600));
+                    border-radius: var(--radius-lg);
+                    padding: var(--space-8);
+                    color: white;
+                    text-align: center;
+                    margin-bottom: var(--space-8);
+                    box-shadow: var(--shadow-green);">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">📞</div>
+            <h2 style="color: white; margin-bottom: 0.5rem;">Kisan Call Centre</h2>
+            <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;">
+                1800-180-1551
+            </div>
+            <p style="color: rgba(255,255,255,0.85); margin-bottom: 0;">
+                Free agricultural helpline &nbsp;|&nbsp; Daily 6 AM – 10 PM &nbsp;|&nbsp;
+                Available in multiple Indian languages &nbsp;|&nbsp; Toll Free
+            </p>
+        </div>
+
+        <!-- ============================================================
+             CONTACT CARDS GRID
+             ============================================================ -->
+        {% set contact_icons = ['🏢', '🔬', '📞', '💻', '🏛️', '🧪'] %}
+
+        <div class="contact-grid">
+            {% for contact in contacts %}
+            <div class="contact-card" id="contact-{{ contact.id }}">
+
+                <!-- Icon -->
+                <div class="contact-card-icon">
+                    {{ contact_icons[loop.index0 % contact_icons|length] }}
+                </div>
+
+                <!-- Name & Role -->
+                <h3>{{ contact.name }}</h3>
+                <p class="role">{{ contact.role }}</p>
+
+                <!-- Phone -->
+                <div class="contact-item">
+                    <span class="contact-item-icon">📞</span>
+                    <span>{{ contact.phone }}</span>
+                </div>
+
+                <!-- Email -->
+                <div class="contact-item">
+                    <span class="contact-item-icon">📧</span>
+                    <span>{{ contact.email }}</span>
+                </div>
+
+                <!-- Address -->
+                <div class="contact-item">
+                    <span class="contact-item-icon">📍</span>
+                    <span>{{ contact.address }}</span>
+                </div>
+
+                <!-- Note -->
+                {% if contact.note %}
+                <div style="margin-top: 0.75rem; padding-top: 0.75rem;
+                            border-top: 1px solid var(--gray-100);">
+                    <p class="text-small text-muted" style="margin-bottom: 0;">
+                        ℹ️ {{ contact.note }}
+                    </p>
+                </div>
+                {% endif %}
+
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- ============================================================
+             USEFUL WEBSITES SECTION
+             ============================================================ -->
+        <hr class="divider">
+        <h2 style="margin-bottom: var(--space-5);">🌐 Useful Government Websites</h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
+
+            {% set websites = [
+                ('PM-KISAN Portal', 'pmkisan.gov.in', '💰'),
+                ('PMFBY Crop Insurance', 'pmfby.gov.in', '🛡️'),
+                ('eNAM Market Portal', 'enam.gov.in', '🏪'),
+                ('Soil Health Card', 'soilhealth.dac.gov.in', '🧪'),
+                ('ICAR KVK Directory', 'icar.org.in/kvk', '🔬'),
+                ('Dept. of Agriculture', 'agricoop.nic.in', '🏛️'),
+            ] %}
+
+            {% for name, url, icon in websites %}
+            <div style="background: var(--white);
+                        border: 1px solid var(--gray-200);
+                        border-radius: var(--radius);
+                        padding: var(--space-5);
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        box-shadow: var(--shadow-sm);">
+                <span style="font-size: 1.8rem;">{{ icon }}</span>
+                <div>
+                    <div style="font-weight: 600; color: var(--green-900); font-size: 0.95rem;">
+                        {{ name }}
+                    </div>
+                    <code style="font-size: 0.8rem; color: var(--gray-500);">{{ url }}</code>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <p class="text-muted text-small" style="margin-top: var(--space-5);">
+            💡 Type the above URLs directly into your browser. Always use official
+            <code>.gov.in</code> domains.
+        </p>
+
+    </div>
+</div>
+
+{% endblock %}

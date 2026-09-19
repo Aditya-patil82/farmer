@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Farming Tips{% endblock %}
+{% block meta_description %}Practical farming tips for soil preparation, irrigation, pest management, crop care, harvesting and storage.{% endblock %}
+
+{% block content %}
+
+<!-- Page Header Banner -->
+<div class="page-header">
+    <div class="container">
+        <h1>🧑‍🌾 Farming Tips</h1>
+        <p>Practical tips to improve your farming practices — from soil to harvest.</p>
+    </div>
+</div>
+
+<div class="page-content" style="padding-top: 0;">
+    <div class="container">
+
+        <!-- ============================================================
+             CATEGORY FILTER BUTTONS
+             Clicking a button filters tips by category (server-side).
+             The active category is highlighted by the .active CSS class.
+             ============================================================ -->
+        <div class="category-filters" role="group" aria-label="Filter tips by category">
+
+            <!-- "All" button — clears the filter -->
+            <a href="{{ url_for('tips') }}"
+               class="category-btn {% if not active_category %}active{% endif %}"
+               data-category=""
+               id="btn-all-tips">
+                🌾 All Tips
+            </a>
+
+            <!-- One button per category from the database -->
+            {% set category_icons = {
+                'Soil Preparation': '🪨',
+                'Irrigation':       '💧',
+                'Pest Management':  '🐛',
+                'Crop Care':        '🌿',
+                'Harvesting':       '✂️',
+                'Storage':          '🏠'
+            } %}
+
+            {% for cat in categories %}
+            <a href="{{ url_for('tips', category=cat.category) }}"
+               class="category-btn {% if active_category == cat.category %}active{% endif %}"
+               data-category="{{ cat.category }}"
+               id="btn-cat-{{ loop.index }}">
+                {{ category_icons.get(cat.category, '🌱') }} {{ cat.category }}
+            </a>
+            {% endfor %}
+
+        </div>
+
+        <!-- Show which category is being filtered -->
+        {% if active_category %}
+        <p class="text-muted text-small" style="margin-bottom: var(--space-5);">
+            Showing tips for: <strong>{{ active_category }}</strong> —
+            <a href="{{ url_for('tips') }}">Show all</a>
+        </p>
+        {% endif %}
+
+        <!-- ============================================================
+             TIPS GRID
+             Each tip is displayed as a card with category badge.
+             ============================================================ -->
+        {% if tips %}
+        <div class="tips-grid">
+            {% for tip in tips %}
+            <div class="tip-card" id="tip-{{ tip.id }}">
+
+                <!-- Category badge -->
+                <span class="tip-category-badge">
+                    {{ category_icons.get(tip.category, '🌱') }} {{ tip.category }}
+                </span>
+
+                <!-- Tip title -->
+                <h3>{{ tip.title }}</h3>
+
+                <!-- Tip description -->
+                <p>{{ tip.description }}</p>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        <p class="text-muted text-small" style="margin-top: var(--space-8);">
+            📌 Showing {{ tips|length }} tip(s).
+            {% if active_category %}
+            <a href="{{ url_for('tips') }}">View all categories →</a>
+            {% endif %}
+        </p>
+
+        {% else %}
+        <div class="no-results">
+            <div class="no-results-icon">💡</div>
+            <h3>No tips found</h3>
+            <p><a href="{{ url_for('tips') }}">Show all tips</a></p>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

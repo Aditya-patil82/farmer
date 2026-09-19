@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+{% block meta_description %}Local Farmer Information System — Smart information for better farming. Access crop info, market prices, weather, government schemes and tips.{% endblock %}
+
+{% block content %}
+
+<!-- ============================================================
+     HERO SECTION
+     The large banner at the top of the home page.
+     ============================================================ -->
+<section class="hero" id="hero">
+    <div class="container">
+        <div class="hero-content">
+
+            <!-- Small badge label -->
+            <span class="hero-badge">🌾 Smart Farming Resource Portal</span>
+
+            <!-- Main heading -->
+            <h1>
+                Smart Information<br>
+                for <span>Better Farming</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p>
+                Access crop information, market prices, weather updates,
+                government schemes and useful farming resources — all in one place.
+                Designed for local farmers. Easy to use on any device.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="hero-buttons">
+                <a href="{{ url_for('crops') }}" class="btn btn-primary" id="btn-explore-crops">
+                    🌱 Explore Crops
+                </a>
+                <a href="{{ url_for('market') }}" class="btn btn-outline-white" id="btn-market-prices">
+                    💰 Check Market Prices
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Decorative background emoji -->
+    <div class="hero-emoji" aria-hidden="true">🌾</div>
+</section>
+
+
+<!-- ============================================================
+     QUICK STATS ROW
+     Shows key numbers at a glance
+     ============================================================ -->
+<section class="section" style="padding-top: var(--space-10); padding-bottom: var(--space-6);">
+    <div class="container">
+        <div class="stats-row">
+            <div class="stat-item">
+                <span class="stat-number">9+</span>
+                <span class="stat-label">Crop Profiles</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">Market Price Records</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">5</span>
+                <span class="stat-label">Government Schemes</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">16</span>
+                <span class="stat-label">Farming Tips</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     FEATURE CARDS SECTION
+     Six cards linking to each module
+     ============================================================ -->
+<section class="section" id="features">
+    <div class="container">
+        <h2 class="section-title">Everything a Farmer Needs</h2>
+        <p class="section-subtitle">
+            Six powerful modules to help you make better decisions on your farm.
+        </p>
+
+        <div class="feature-grid">
+
+            <!-- Card 1 — Crops -->
+            <a href="{{ url_for('crops') }}" class="feature-card" id="card-crops">
+                <div class="card-icon">🌱</div>
+                <h3>Crop Information</h3>
+                <p>
+                    Browse detailed profiles of common crops — seasons, soil types,
+                    water requirements, temperature ranges and cultivation steps.
+                </p>
+                <span class="card-link">Browse Crops →</span>
+            </a>
+
+            <!-- Card 2 — Market Prices -->
+            <a href="{{ url_for('market') }}" class="feature-card" id="card-market">
+                <div class="card-icon">💰</div>
+                <h3>Market Prices</h3>
+                <p>
+                    Check sample market price data for common crops. Filter by crop
+                    to compare prices across markets.
+                </p>
+                <span class="card-link">View Prices →</span>
+            </a>
+
+            <!-- Card 3 — Weather -->
+            <a href="{{ url_for('weather') }}" class="feature-card" id="card-weather">
+                <div class="card-icon">🌦️</div>
+                <h3>Weather Information</h3>
+                <p>
+                    Enter your location to see weather details — temperature,
+                    humidity, wind speed and rain possibility.
+                </p>
+                <span class="card-link">Check Weather →</span>
+            </a>
+
+            <!-- Card 4 — Schemes -->
+            <a href="{{ url_for('schemes') }}" class="feature-card" id="card-schemes">
+                <div class="card-icon">🏛️</div>
+                <h3>Government Schemes</h3>
+                <p>
+                    Learn about agricultural support schemes — eligibility, benefits
+                    and how to apply. Always verify on the official portal.
+                </p>
+                <span class="card-link">See Schemes →</span>
+            </a>
+
+            <!-- Card 5 — Tips -->
+            <a href="{{ url_for('tips') }}" class="feature-card" id="card-tips">
+                <div class="card-icon">🧑‍🌾</div>
+                <h3>Farming Tips</h3>
+                <p>
+                    Practical tips on soil preparation, irrigation, pest management,
+                    crop care, harvesting and storage.
+                </p>
+                <span class="card-link">Read Tips →</span>
+            </a>
+
+            <!-- Card 6 — Contact -->
+            <a href="{{ url_for('contact') }}" class="feature-card" id="card-contact">
+                <div class="card-icon">📞</div>
+                <h3>Help & Contacts</h3>
+                <p>
+                    Find agricultural helplines, KVK contacts, local agriculture
+                    office details and government support numbers.
+                </p>
+                <span class="card-link">Get Help →</span>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     NOTICE BANNER
+     Tells users this is a demo/prototype project
+     ============================================================ -->
+<section style="padding: 0 0 var(--space-12);">
+    <div class="container">
+        <div class="alert alert-demo">
+            <span class="alert-icon">📋</span>
+            <div>
+                <strong>College Prototype Notice:</strong>
+                This is a demo application built as a college CSE community project.
+                Market prices, weather data and contact details shown are
+                <strong>sample/demo data</strong> for educational purposes.
+                Always verify important information — especially government scheme eligibility,
+                market prices and contact numbers — from official verified sources.
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

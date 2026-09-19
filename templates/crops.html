@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Crop Information{% endblock %}
+{% block meta_description %}Browse crop profiles for rice, ragi, maize, wheat, tomato, onion, sugarcane, groundnut and cotton — seasons, soil, water and cultivation tips.{% endblock %}
+
+{% block content %}
+
+<!-- Page Header Banner -->
+<div class="page-header">
+    <div class="container">
+        <h1>🌱 Crop Information</h1>
+        <p>Browse crop profiles — season, soil type, water requirements and cultivation guidance.</p>
+    </div>
+</div>
+
+<div class="page-content" style="padding-top: 0;">
+    <div class="container">
+
+        <!-- ============================================================
+             SEARCH BAR
+             Filters crop cards as you type (handled by script.js).
+             The server-side search via URL ?q=... is also supported.
+             ============================================================ -->
+        <div class="search-bar">
+            <input
+                type="text"
+                id="crop-search-input"
+                placeholder="🔍 Search crops... e.g. Ragi, Tomato"
+                aria-label="Search crop by name"
+                value="{{ query }}"
+                autocomplete="off"
+            >
+            <!-- The form submission triggers server-side search -->
+            <form method="get" action="{{ url_for('crops') }}" style="display:none" id="crop-search-form">
+                <input type="text" name="q" id="crop-search-hidden">
+            </form>
+        </div>
+
+        <!-- Show message when a search was performed server-side -->
+        {% if query %}
+        <p class="text-muted text-small" style="margin-bottom: var(--space-6);">
+            Showing results for "<strong>{{ query }}</strong>" —
+            <a href="{{ url_for('crops') }}">Clear search</a>
+        </p>
+        {% endif %}
+
+        <!-- ============================================================
+             CROP CARDS GRID
+             Each card links to that crop's detail page.
+             The data-name attribute is used for client-side filtering.
+             ============================================================ -->
+        <div class="crop-grid" id="crop-cards-container">
+            {% for crop in crops %}
+            <a href="{{ url_for('crop_detail', crop_id=crop.id) }}"
+               class="crop-card"
+               data-name="{{ crop.name }}"
+               id="crop-card-{{ crop.id }}"
+               aria-label="View {{ crop.name }} details">
+
+                <!-- Crop emoji icon -->
+                <span class="crop-emoji">{{ crop.image_emoji }}</span>
+
+                <!-- Crop name -->
+                <h3>{{ crop.name }}</h3>
+
+                <!-- Quick meta info -->
+                <p class="crop-meta">
+                    📅 {{ crop.season }}<br>
+                    🌡️ {{ crop.temperature }}
+                </p>
+
+            </a>
+            {% endfor %}
+        </div>
+
+        <!-- No-results message (hidden by default, shown by JS or Jinja) -->
+        {% if crops|length == 0 %}
+        <div class="no-results" id="no-results-msg">
+            <div class="no-results-icon">🔍</div>
+            <h3>No crops found</h3>
+            <p>Try a different search term. <a href="{{ url_for('crops') }}">Show all crops</a></p>
+        </div>
+        {% else %}
+        <!-- Hidden div used by JavaScript to show "no results" message -->
+        <div class="no-results" id="no-results-msg" style="display:none;">
+            <div class="no-results-icon">🔍</div>
+            <h3>No crops found</h3>
+            <p>Try a different search term or clear the search.</p>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

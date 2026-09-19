@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Weather Information{% endblock %}
+{% block meta_description %}Check weather information for your farming location — temperature, humidity, wind speed and rain possibility. Demo weather data for college project.{% endblock %}
+
+{% block content %}
+
+<!-- Page Header Banner -->
+<div class="page-header">
+    <div class="container">
+        <h1>🌦️ Weather Information</h1>
+        <p>Enter your location to see weather details for farming planning.</p>
+    </div>
+</div>
+
+<div class="page-content" style="padding-top: 0;">
+    <div class="container">
+
+        <!-- ============================================================
+             DEMO DATA NOTICE
+             Always displayed on this page so users know the data
+             is simulated, not from a live weather service.
+             ============================================================ -->
+        <div class="alert alert-info">
+            <span class="alert-icon">ℹ️</span>
+            <div>
+                <strong>Demo Weather Data:</strong>
+                This page shows <strong>sample / simulated weather data</strong> —
+                it is not connected to a live weather API.
+                To add live weather, a real weather API (such as OpenWeatherMap)
+                should be integrated in <code>app.py</code> using an environment variable
+                for the API key. Never hard-code API keys in the source code.
+            </div>
+        </div>
+
+        <!-- ============================================================
+             WEATHER SEARCH FORM
+             User enters a location name and submits.
+             Flask reads the 'location' query parameter and returns
+             demo weather data for that location.
+             ============================================================ -->
+        <form method="get" action="{{ url_for('weather') }}"
+              id="weather-form" class="weather-search"
+              aria-label="Weather location search">
+
+            <input
+                type="text"
+                name="location"
+                id="weather-location-input"
+                class="form-input"
+                placeholder="Enter location... e.g. Athani, Hubli"
+                value="{{ location }}"
+                aria-label="Location name"
+                autocomplete="off"
+                style="border-radius: 9999px; flex: 1;"
+            >
+
+            <button type="submit" class="btn btn-primary" id="btn-check-weather">
+                🌤️ Check Weather
+            </button>
+        </form>
+
+        <!-- Error message (shown by JavaScript if input is empty) -->
+        <p id="weather-input-error"
+           style="display:none; color:#ef4444; font-size:0.9rem; margin-top:-1rem; margin-bottom:1rem; text-align:center;">
+        </p>
+
+        <!-- ============================================================
+             WEATHER CARD — Shown only when the user has searched
+             ============================================================ -->
+        {% if weather %}
+
+        <!-- Demo badge above the card -->
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <span class="badge badge-amber">📋 Sample / Demo Data — Not Live</span>
+        </div>
+
+        <div class="weather-card" id="weather-result-card" role="region" aria-label="Weather result">
+
+            <!-- Location name & condition -->
+            <div class="weather-location">
+                📍 {{ weather.location | title }}
+            </div>
+            <div class="weather-condition">
+                ⛅ {{ weather.condition }}
+            </div>
+
+            <!-- Large temperature display -->
+            <div class="weather-temp">
+                {{ weather.temperature }}<span>°C</span>
+            </div>
+
+            <!-- Weather stats grid -->
+            <div class="weather-stats">
+
+                <div class="weather-stat">
+                    <div class="stat-label">💧 Humidity</div>
+                    <div class="stat-value">{{ weather.humidity }}%</div>
+                </div>
+
+                <div class="weather-stat">
+                    <div class="stat-label">💨 Wind Speed</div>
+                    <div class="stat-value">{{ weather.wind_speed }} km/h</div>
+                </div>
+
+                <div class="weather-stat">
+                    <div class="stat-label">🌧️ Rain Chance</div>
+                    <div class="stat-value">{{ weather.rain_possibility }}%</div>
+                </div>
+
+                <div class="weather-stat">
+                    <div class="stat-label">🌡️ Feels Like</div>
+                    <div class="stat-value">{{ weather.feels_like }}°C</div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Reminder notice after the card -->
+        <p class="text-muted text-small text-center" style="margin-top: 1.5rem;">
+            ⚠️ The weather data above is <strong>demo / sample data</strong> and
+            does not reflect actual weather conditions.
+            Connect a verified weather API (e.g., OpenWeatherMap) for live data.
+        </p>
+
+        <!-- Developer note on how to add a real API -->
+        <div class="alert alert-info" style="margin-top: 2rem;">
+            <span class="alert-icon">🛠️</span>
+            <div>
+                <strong>For Developers (Future Integration):</strong>
+                To connect a real weather API, edit the <code>/weather</code>
+                route in <code>app.py</code>. Store your API key in an
+                environment variable using <code>os.environ.get('WEATHER_API_KEY')</code>.
+                Replace the demo <code>weather_data</code> dictionary with data
+                from the API response. Example API: <strong>openweathermap.org</strong>
+            </div>
+        </div>
+
+        {% else %}
+
+        <!-- ============================================================
+             PLACEHOLDER — Shown before any search is made
+             ============================================================ -->
+        <div class="weather-placeholder">
+            <div class="placeholder-icon">🌤️</div>
+            <h3 style="color: var(--green-800); margin-bottom: 0.75rem;">
+                Enter a location to check weather
+            </h3>
+            <p style="max-width: 400px; margin: 0 auto;">
+                Type your village, town or city name above and click
+                "Check Weather" to see weather information.
+            </p>
+        </div>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

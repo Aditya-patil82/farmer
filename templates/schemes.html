@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Government Schemes{% endblock %}
+{% block meta_description %}Learn about agricultural government schemes like PM-KISAN, PMFBY crop insurance, Kisan Credit Card, Soil Health Card and eNAM for farmers.{% endblock %}
+
+{% block content %}
+
+<!-- Page Header Banner -->
+<div class="page-header">
+    <div class="container">
+        <h1>🏛️ Government Schemes</h1>
+        <p>Agricultural support schemes and benefits available for farmers.</p>
+    </div>
+</div>
+
+<div class="page-content" style="padding-top: 0;">
+    <div class="container">
+
+        <!-- ============================================================
+             IMPORTANT VERIFICATION NOTICE
+             This notice is mandatory — scheme details can change.
+             ============================================================ -->
+        <div class="alert alert-warning">
+            <span class="alert-icon">⚠️</span>
+            <div>
+                <strong>Important Notice:</strong>
+                The scheme information displayed here is for
+                <strong>educational and awareness purposes only</strong>.
+                Eligibility criteria, benefits, and application processes
+                may change over time.
+                <strong>Please verify current details on the official
+                government portals before applying.</strong>
+                Do not rely solely on this information for applications.
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SCHEME CARDS
+             Each scheme is displayed as an expandable info card
+             ============================================================ -->
+        {% set scheme_icons = ['🌾', '🛡️', '💳', '🧪', '🛒'] %}
+
+        {% for scheme in schemes %}
+        <div class="scheme-card" id="scheme-{{ scheme.id }}">
+
+            <!-- Scheme Header -->
+            <div class="scheme-card-header">
+                <span class="scheme-icon">
+                    {{ scheme_icons[loop.index0 % scheme_icons|length] }}
+                </span>
+                <div>
+                    <h3>{{ scheme.name }}</h3>
+                    <span class="badge badge-green">Government Scheme</span>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="scheme-section">
+                <div class="scheme-label">📋 About this Scheme</div>
+                <p>{{ scheme.description }}</p>
+            </div>
+
+            <!-- Eligibility -->
+            <div class="scheme-section">
+                <div class="scheme-label">✅ Eligibility</div>
+                <p>{{ scheme.eligibility }}</p>
+            </div>
+
+            <!-- Benefits -->
+            <div class="scheme-section">
+                <div class="scheme-label">🎁 Benefits</div>
+                <p>{{ scheme.benefits }}</p>
+            </div>
+
+            <!-- How to Apply -->
+            <div class="scheme-section">
+                <div class="scheme-label">📝 How to Apply</div>
+                <p>{{ scheme.application_info }}</p>
+            </div>
+
+        </div>
+        {% endfor %}
+
+        <!-- Bottom reminder -->
+        <div class="alert alert-info" style="margin-top: var(--space-4);">
+            <span class="alert-icon">🔗</span>
+            <div>
+                <strong>Useful Official Portals:</strong>
+                PM-KISAN: <code>pmkisan.gov.in</code> &nbsp;|&nbsp;
+                PMFBY: <code>pmfby.gov.in</code> &nbsp;|&nbsp;
+                eNAM: <code>enam.gov.in</code> &nbsp;|&nbsp;
+                Soil Health Card: <code>soilhealth.dac.gov.in</code> &nbsp;|&nbsp;
+                KVK Directory: <code>icar.org.in/kvk</code>
+                <br><em style="font-size:0.85rem;">Always type these URLs directly in your browser.</em>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

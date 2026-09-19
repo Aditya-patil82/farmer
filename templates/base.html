@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+    base.html — Base Template
+    Every page in this application extends this template.
+    It provides:
+      - The <head> with meta tags, CSS links, fonts
+      - The navigation bar (consistent on all pages)
+      - The footer (consistent on all pages)
+      - A "block content" placeholder where each page inserts its content
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Dynamic page title — each page provides its own title -->
+    <title>{% block title %}Local Farmer Information System{% endblock %} | LFIS</title>
+
+    <!-- SEO Meta Description — each page can override this -->
+    <meta name="description" content="{% block meta_description %}Local Farmer Information System — access crop information, market prices, weather, government schemes and farming tips in one place.{% endblock %}">
+
+    <!-- Google Fonts — Poppins for clean, professional typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Favicon emoji -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>">
+</head>
+<body>
+
+<!-- ======================================================
+     NAVIGATION BAR
+     Appears at the top of every page.
+     ====================================================== -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+
+        <!-- Brand / Logo -->
+        <a href="{{ url_for('index') }}" class="nav-brand" aria-label="Go to Home">
+            <span class="brand-icon">🌾</span>
+            <span class="brand-text">
+                Local Farmer
+                <span class="brand-sub">Information System</span>
+            </span>
+        </a>
+
+        <!-- Mobile hamburger button (visible only on small screens) -->
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="nav-links" role="menubar">
+            <li><a href="{{ url_for('index') }}"   role="menuitem">🏠 Home</a></li>
+            <li><a href="{{ url_for('crops') }}"   role="menuitem">🌱 Crops</a></li>
+            <li><a href="{{ url_for('market') }}"  role="menuitem">💰 Market</a></li>
+            <li><a href="{{ url_for('weather') }}" role="menuitem">🌦️ Weather</a></li>
+            <li><a href="{{ url_for('schemes') }}" role="menuitem">🏛️ Schemes</a></li>
+            <li><a href="{{ url_for('tips') }}"    role="menuitem">🧑‍🌾 Tips</a></li>
+            <li><a href="{{ url_for('contact') }}" role="menuitem">📞 Contact</a></li>
+        </ul>
+
+    </div>
+</nav>
+
+<!-- ======================================================
+     MAIN CONTENT AREA
+     Each page fills this block with its own content.
+     ====================================================== -->
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<!-- ======================================================
+     FOOTER
+     Appears at the bottom of every page.
+     ====================================================== -->
+<footer class="footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                🌾 Local Farmer Information System
+                <span>College CSE Community Project — Demo Application</span>
+            </div>
+
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('crops') }}">Crops</a>
+                <a href="{{ url_for('market') }}">Market</a>
+                <a href="{{ url_for('weather') }}">Weather</a>
+                <a href="{{ url_for('schemes') }}">Schemes</a>
+                <a href="{{ url_for('tips') }}">Tips</a>
+                <a href="{{ url_for('contact') }}">Contact</a>
+            </nav>
+        </div>
+
+        <p class="footer-copy">
+            Local Farmer Information System — College CSE Community Project &nbsp;|&nbsp;
+            Data shown is sample/demo data for educational purposes only &nbsp;|&nbsp;
+            &copy; 2026
+        </p>
+    </div>
+</footer>
+
+<!-- Main JavaScript File -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
